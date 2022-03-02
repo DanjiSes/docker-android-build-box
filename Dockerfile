@@ -65,7 +65,6 @@ RUN apt-get update -qq > /dev/null && \
     ncurses-dev \
     ocaml \
     openjdk-8-jdk \
-    openjdk-11-jdk \
     openssh-client \
     pkg-config \
     ruby-full \
@@ -214,19 +213,6 @@ RUN echo "fastlane" && \
     mkdir -p /.fastlane && \
     chmod 777 /.fastlane && \
     bundle install --quiet
-
-# Add jenv to control which version of java to use, default to 11.
-RUN git clone https://github.com/jenv/jenv.git ~/.jenv && \
-    echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.bash_profile && \
-    echo 'eval "$(jenv init -)"' >> ~/.bash_profile && \
-    . ~/.bash_profile && \
-    . /etc/jdk.env && \
-    java -version && \
-    jenv add /usr/lib/jvm/java-8-openjdk-$JDK_PLATFORM && \
-    jenv add /usr/lib/jvm/java-11-openjdk-$JDK_PLATFORM && \
-    jenv versions && \
-    jenv global 11 && \
-    java -version
 
 COPY README.md /README.md
 
